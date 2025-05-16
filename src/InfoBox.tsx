@@ -22,9 +22,6 @@ interface InfoBoxProps {
 }
 
 export default function InfoBox({ info }: InfoBoxProps) {
-  const INITIAL_URL =
-    "https://plus.unsplash.com/premium_photo-1667143951629-a1b2acc1a832?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
   const HOT_URL =
     "https://images.unsplash.com/photo-1504370805625-d32c54b16100?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   const COLD_URL =
