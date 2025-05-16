@@ -1,11 +1,12 @@
-import WeatherApp from "./WeatherApp";
+import WeatherApp from './WeatherApp'
+import './App.css'
 
-const App = () => {
+function App() {
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="App">
       <WeatherApp />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

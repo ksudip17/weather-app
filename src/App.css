@@ -1,0 +1,63 @@
+.weather-app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.weather-app h2 {
+  color: #1976d2;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+
+.search-box {
+  margin-bottom: 2rem;
+}
+
+.search-box form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.card-container {
+  width: 100%;
+  max-width: 345px;
+}
+
+.card-container .MuiCard-root {
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.card-container .MuiCard-root:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-container .MuiTypography-root {
+  color: #333333;
+}
+
+.card-container .MuiTypography-h5 {
+  color: #1976d2;
+  font-weight: 600;
+}

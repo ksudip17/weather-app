@@ -2,52 +2,78 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import "./SearchBox.css";
 import { useState } from "react";
-import { red } from "@mui/material/colors";
+import CircularProgress from "@mui/material/CircularProgress";
 
-function SearchBox({ updateInfo }) {
+interface WeatherInfo {
+  city: string;
+  feels_like: number;
+  humidity: number;
+  temp: number;
+  tempMax: number;
+  tempMin: number;
+  weather: string;
+}
+
+interface SearchBoxProps {
+  updateInfo: (info: WeatherInfo) => void;
+  onError: (error: string) => void;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
+}
+
+function SearchBox({ updateInfo, onError, isLoading, setIsLoading }: SearchBoxProps) {
   const [city, setCity] = useState("");
-  const [error, setError] = useState(false);
 
   const API_URL = "https://api.openweathermap.org/data/2.5/weather";
   const API_KEY = "3eb3fac69edc782247d8821f2ce84a34";
 
-  const getWeatherInfo = async () => {
+  const getWeatherInfo = async (): Promise<WeatherInfo> => {
     try {
-      let response = await fetch(
+      const response = await fetch(
         `${API_URL}?q=${city}&appid=${API_KEY}&units=metric`
       );
-      let jsonResponse = await response.json();
+      
+      if (!response.ok) {
+        throw new Error("City not found");
+      }
 
-      let result = {
+      const jsonResponse = await response.json();
+
+      return {
         city: city,
         weather: jsonResponse.weather[0].description,
         temp: jsonResponse.main.temp,
         tempMin: jsonResponse.main.temp_min,
         tempMax: jsonResponse.main.temp_max,
         humidity: jsonResponse.main.humidity,
-        feelsLike: jsonResponse.main.feels_like,
+        feels_like: jsonResponse.main.feels_like,
       };
-      console.log(result);
-      return result;
     } catch (error) {
       throw error;
     }
   };
 
-  const handleChange = (evt) => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setCity(evt.target.value);
   };
 
-  const handleSubmit = async (evt) => {
+  const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     try {
       evt.preventDefault();
-      console.log(city);
+      setIsLoading(true);
+      onError("");
+      
+      if (!city.trim()) {
+        throw new Error("Please enter a city name");
+      }
+
+      const newInfo = await getWeatherInfo();
       setCity("");
-      setError("");
-      let newInfo = await getWeatherInfo();
       updateInfo(newInfo);
     } catch (error) {
-      setError("true");
+      onError(error instanceof Error ? error.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,13 +87,17 @@ function SearchBox({ updateInfo }) {
           required
           value={city}
           onChange={handleChange}
+          disabled={isLoading}
         />
         <br />
         <br />
-        <Button variant="contained" type="submit">
-          Search
+        <Button 
+          variant="contained" 
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading ? <CircularProgress size={24} /> : "Search"}
         </Button>
-        {error && <p style={{ color: "red" }}>No Such City found in Our API</p>}
       </form>
     </div>
   );
